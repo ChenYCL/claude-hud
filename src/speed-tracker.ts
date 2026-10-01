@@ -215,16 +215,9 @@ function getTranscriptSpeed(
 }
 
 /**
- * Claude Code refreshes `current_usage` only once an API response has
- * finished, and its `output_tokens` counts that one response rather than the
- * session. The counter therefore never moves while tokens stream, and diffing
- * it against wall-clock time between renders shows nothing during a response
- * and then reports the whole response as if it arrived within one refresh.
- *
- * `cost.total_api_duration_ms` advances by that response's request time in
- * the same update, so the finished response's throughput is its output_tokens
- * over the API time added since the previous response. The reading stays up
- * until the next response lands.
+ * `current_usage.output_tokens` only updates once a response finishes, and
+ * `cost.total_api_duration_ms` advances by that response's request time in the
+ * same update, so speed is output tokens over the API time added since then.
  */
 function getResponseSpeed(
   transcriptPath: string,
